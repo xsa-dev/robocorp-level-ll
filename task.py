@@ -44,17 +44,15 @@ def show_start_dialog():
     return d
 
 
-def data_table_order():
+def orderdes_as_table():
     HTTP().download(
         url=ORDERS_CSV,
         target_file=r'output/orders.csv'
     )
-    library = Tables()
-    orders = library.read_table_from_csv(
+    return Tables().read_table_from_csv(
         r'output/orders.csv',
         columns=["Order number", "Head", "Body", "Legs", "Address"],
     )
-    return orders
 
 
 def process_order(order, web):
@@ -101,15 +99,12 @@ def zip_receipts():
 
 if __name__ == "__main__":
     result = show_start_dialog()
-    orders = data_table_order()
     web = Selenium()
-    # Open Headless Chrome Browser
     web.open_headless_chrome_browser(
         url=ROBOT_STORE
     )
-    for order in orders:
+    for order in orderdes_as_table():
         process_order(order, web)
-        pass
     web.close_all_browsers()
     zip_receipts()
     show_finish_dialog(result)
