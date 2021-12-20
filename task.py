@@ -44,15 +44,11 @@ def show_start_dialog():
     return d
 
 
-def download_order_file():
+def data_table_order():
     HTTP().download(
         url=ORDERS_CSV,
         target_file=r'output/orders.csv'
     )
-
-
-def data_table_order():
-    download_order_file()
     library = Tables()
     orders = library.read_table_from_csv(
         r'output/orders.csv',
